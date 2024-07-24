@@ -8,9 +8,9 @@ plugins {
     alias(libs.plugins.pluginYml)
 }
 
-group = "me.aroxu"
+group = "me.pybsh"
 version = "0.0.1"
-val codeName = "sample"
+val codeName = "limbusbattle"
 
 repositories {
     mavenCentral()

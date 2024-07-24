@@ -1,4 +1,4 @@
-package me.aroxu.sample.plugin.loader;
+package me.pybsh.limbusbattle.plugin.loader;
 
 import com.google.gson.Gson;
 import io.papermc.paper.plugin.loader.PluginClasspathBuilder;
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"UnstableApiUsage", "unused", "ClassEscapesDefinedScope"})
-public class SamplePluginLoader implements PluginLoader {
+public class LimbusbattlePluginLoader implements PluginLoader {
     @Override
     public void classloader(@NotNull PluginClasspathBuilder classpathBuilder) {
         MavenLibraryResolver resolver = new MavenLibraryResolver();

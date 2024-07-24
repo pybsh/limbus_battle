@@ -1,23 +1,22 @@
-package me.aroxu.sample.plugin
+package me.pybsh.limbusbattle.plugin
 
-import cloud.commandframework.bukkit.CloudBukkitCapabilities
 import cloud.commandframework.execution.CommandExecutionCoordinator
 import cloud.commandframework.paper.PaperCommandManager
-import me.aroxu.sample.plugin.commands.SampleCommand
-import me.aroxu.sample.plugin.events.SampleEvent
+import me.pybsh.limbusbattle.plugin.commands.LimbusbattleCommand
+import me.pybsh.limbusbattle.plugin.events.LimbusbattleEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.function.Function
 
-class SamplePlugin : JavaPlugin() {
+class LimbusbattlePlugin : JavaPlugin() {
     companion object {
-        lateinit var instance: SamplePlugin
+        lateinit var instance: LimbusbattlePlugin
             private set
     }
 
     override fun onEnable() {
         instance = this
 
-        server.pluginManager.registerEvents(SampleEvent, this)
+        server.pluginManager.registerEvents(LimbusbattleEvent, this)
 
         val commandManager = PaperCommandManager(
             this,
@@ -33,6 +32,6 @@ class SamplePlugin : JavaPlugin() {
 //        }
 
         commandManager.registerAsynchronousCompletions()
-        commandManager.command(SampleCommand.registerCommand(commandManager))
+        commandManager.command(LimbusbattleCommand.registerCommand(commandManager))
     }
 }

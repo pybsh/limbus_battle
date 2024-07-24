@@ -1,1 +1,1 @@
-rootProject.name = "aroxu-plugin-template"
+rootProject.name = "limbus_battle"
