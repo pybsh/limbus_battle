@@ -1,73 +1,110 @@
 package me.pybsh.limbusbattle.plugin.objects
 
-import me.pybsh.limbusbattle.plugin.classes.Plate
+import com.github.shynixn.mccoroutine.bukkit.launch
+import me.pybsh.limbusbattle.plugin.classes.LimbusAnimation
+import me.pybsh.limbusbattle.plugin.classes.LimbusPlate
+import me.pybsh.limbusbattle.plugin.objects.LimbusbattleObject.plugin
+import net.kyori.adventure.text.Component.empty
 import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.TextComponent
+import net.kyori.adventure.text.TextReplacementConfig
+import net.kyori.adventure.text.format.TextColor
 import kotlin.random.Random
 
 object LimbusbattleHap {
-    fun battle(plate1: Plate, plate2: Plate) {
-        if(plate1.coins.size <= 0) {
-            tossAllCoin(plate2)
-            plate1.entity.damage(getPower(plate2).toDouble())
-
-        }
-        else if(plate2.coins.size <= 0) {
-            tossAllCoin(plate1)
-            plate2.entity.damage(getPower(plate1).toDouble())
-        }
-        else {
+    fun battle(plate1: LimbusPlate, plate2: LimbusPlate) = plugin.launch {
+        while (plate1.coinCount > 0 && plate2.coinCount > 0) {
             hap(plate1, plate2)
         }
+
+        val (winner, loser) = if (plate1.coins.isEmpty()) plate2 to plate1 else plate1 to plate2
+
+        tossAllCoin(winner)
+        loser.entity.damage(getPower(winner).toDouble())
     }
 
-    private fun hap(plate1: Plate, plate2: Plate) {
+    private suspend fun hap(plate1: LimbusPlate, plate2: LimbusPlate) {
         tossAllCoin(plate1)
         tossAllCoin(plate2)
 
         val power1 = getPower(plate1)
         val power2 = getPower(plate2)
 
-        val coinStr1 = getCoinString(plate1)
-        val coinStr2 = getCoinString(plate2)
+        val ani1 = getCoinAnimation(plate1, plate2)
+        val ani2 = getCoinAnimation(plate2, plate1)
 
-        plate1.entity.sendMessage(text("my power: $coinStr1 = $power1 (${plate1.coinCount})"))
-        plate1.entity.sendMessage(text("enemy power: $coinStr2 = $power2 (${plate2.coinCount})\n"))
-        plate2.entity.sendMessage(text("my power: $coinStr2 = $power2 (${plate2.coinCount})"))
-        plate2.entity.sendMessage(text("enemy power: $coinStr1 = $power1 (${plate1.coinCount})\n"))
-
-        if(power1 > power2) {
-            plate2.coinCount -= 1
-            plate1.entity.sendMessage(text("hap win\n\n"))
-        }
-        else if(power2 > power1) {
-            plate1.coinCount -= 1
-            plate2.entity.sendMessage(text("hap win\n\n"))
+        if (power1 > power2) {
+            plate2.removeCoin()
+        } else if (power2 > power1) {
+            plate1.removeCoin()
         }
 
-        battle(plate1, plate2)
-    }
+        LimbusbattleHapAnimation.animate(ani1, plate1.entity)
+        val job = LimbusbattleHapAnimation.animate(ani2, plate2.entity)
+        job.join()
 
-    private fun getPower(plate: Plate): Int {
+//        battle(plate1, plate2)
+    } //<<<< 이거뭐임
+
+    private fun getPower(plate: LimbusPlate): Int {
         var power = plate.basePower
+
         plate.coins.forEach { c ->
-            if((plate.isMinusCoin && !c) || !plate.isMinusCoin && c) power += plate.weightPower
+            if ((plate.isMinusCoin && !c) || !plate.isMinusCoin && c) power += plate.weightPower
         }
-        return power
+
+        return power.coerceAtLeast(0)
     }
 
-    private fun getCoinString(plate: Plate): String {
-        var str = ""
-        plate.coins.forEach { c ->
-            if((plate.isMinusCoin && !c) || !plate.isMinusCoin && c) str += "@"
-            else str += "O"
+    private fun getCoinAnimation(plate1: LimbusPlate, plate2: LimbusPlate): ArrayList<LimbusAnimation<*>> {
+        val animations: ArrayList<LimbusAnimation<*>> = arrayListOf()
+        val str1 = StringBuilder("◇".repeat(plate1.coinCount))
+        val str2 = StringBuilder("◇".repeat(plate2.coinCount))
+
+        var power1 = plate1.basePower
+        var power2 = plate2.basePower
+
+
+        animations.add(LimbusAnimation.Text(text("$str1 ($power1) : $str2 ($power2)")))
+
+        val maxCoins = maxOf(plate1.coins.size, plate2.coins.size)
+
+        for (i in 0..<maxCoins) {
+            power1 = (power1 + plate1.handleCoin(i, str1)).coerceAtLeast(0)
+            power2 = (power2 + plate2.handleCoin(i, str2)).coerceAtLeast(0)
+
+            animations.add(LimbusAnimation.Text(text("$str1 ($power1) : $str2 ($power2)")))
+            animations.add(LimbusAnimation.Delay(1))
         }
-        return str
+
+        animations.add(LimbusAnimation.Delay(1000))
+
+        return animations
     }
 
-    private fun tossAllCoin(plate: Plate) {
-        plate.coins.clear()
-        for (i in 1..plate.coinCount) {
-            plate.coins.add(tossCoin(plate.mentality / 100.0))
+    private fun LimbusPlate.handleCoin(index: Int, builder: StringBuilder): Int {
+        if (index >= coinCount) return 0
+
+        val coin = coins[index]
+
+        if ((isMinusCoin && !coin) || (!isMinusCoin && coin)) {
+            builder.setCharAt(index, '◆')
+            // todo: Put sound
+        } else {
+            builder.setCharAt(index, '◇')
+            // todo: Put sound
+        }
+
+        if ((isMinusCoin && !coin) || (!isMinusCoin && coin)) {
+            return weightPower
+        }
+
+        return 0
+    }
+
+    private fun tossAllCoin(plate: LimbusPlate) {
+        plate.coins.replaceAll {
+            tossCoin(plate.mentality / 100.0)
         }
     }
 

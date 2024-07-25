@@ -1,6 +1,6 @@
 package me.pybsh.limbusbattle.plugin.events
 
-import me.pybsh.limbusbattle.plugin.classes.Plate
+import me.pybsh.limbusbattle.plugin.classes.LimbusPlate
 import me.pybsh.limbusbattle.plugin.objects.LimbusbattleHap
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
@@ -41,8 +41,9 @@ object LimbusbattleEvent : Listener {
         }
 
         // todo : 임의의 값, 정신력 반영 안함.
-        val p1 = Plate(3, 30, -12, -45, damager as Damageable, isMinusCoin = true)
-        val p2 = Plate(4, 3, 2, 0, target as Damageable)
+        // todo : 애니메이션 작동 중일때 합 새로 안하기
+        val p1 = LimbusPlate(3, 30, -12, -45, damager as Damageable, isMinusCoin = true)
+        val p2 = LimbusPlate(4, 3, 2, 0, target as Damageable)
 
         LimbusbattleHap.battle(p1, p2)
         event.isCancelled = true
