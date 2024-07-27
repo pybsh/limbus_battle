@@ -2,6 +2,9 @@ package me.pybsh.limbusbattle.plugin.events
 
 import me.pybsh.limbusbattle.plugin.classes.LimbusPlate
 import me.pybsh.limbusbattle.plugin.objects.LimbusbattleHap
+import me.pybsh.limbusbattle.plugin.objects.LimbusbattleObject.isPlayingAnimation
+import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -40,12 +43,21 @@ object LimbusbattleEvent : Listener {
             }
         }
 
+        if(isPlayingAnimation.contains(target) || isPlayingAnimation.contains(damager)) {
+            damager.sendMessage(text("합이 진행중입니다.", TextColor.color(0xFF0000)))
+            event.isCancelled = true
+            return
+        }
+
         // todo : 임의의 값, 정신력 반영 안함.
-        // todo : 애니메이션 작동 중일때 합 새로 안하기
         val p1 = LimbusPlate(3, 30, -12, -45, damager as Damageable, isMinusCoin = true)
         val p2 = LimbusPlate(4, 3, 2, 0, target as Damageable)
 
+        isPlayingAnimation.add(damager)
+        isPlayingAnimation.add(target)
+
         LimbusbattleHap.battle(p1, p2)
+
         event.isCancelled = true
     }
 }

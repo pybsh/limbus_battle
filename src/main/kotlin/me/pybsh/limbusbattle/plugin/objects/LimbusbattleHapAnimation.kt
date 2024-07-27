@@ -13,6 +13,7 @@ object LimbusbattleHapAnimation {
                 is LimbusAnimation.Text -> {
                     entity.sendActionBar(info.textComponent)
 //                    entity.sendMessage(info.textComponent)
+                    delay(20L)
                 }
 
                 is LimbusAnimation.Sound -> {

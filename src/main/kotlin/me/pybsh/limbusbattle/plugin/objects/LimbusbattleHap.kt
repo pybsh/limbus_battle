@@ -3,12 +3,9 @@ package me.pybsh.limbusbattle.plugin.objects
 import com.github.shynixn.mccoroutine.bukkit.launch
 import me.pybsh.limbusbattle.plugin.classes.LimbusAnimation
 import me.pybsh.limbusbattle.plugin.classes.LimbusPlate
+import me.pybsh.limbusbattle.plugin.objects.LimbusbattleObject.isPlayingAnimation
 import me.pybsh.limbusbattle.plugin.objects.LimbusbattleObject.plugin
-import net.kyori.adventure.text.Component.empty
 import net.kyori.adventure.text.Component.text
-import net.kyori.adventure.text.TextComponent
-import net.kyori.adventure.text.TextReplacementConfig
-import net.kyori.adventure.text.format.TextColor
 import kotlin.random.Random
 
 object LimbusbattleHap {
@@ -20,7 +17,10 @@ object LimbusbattleHap {
         val (winner, loser) = if (plate1.coins.isEmpty()) plate2 to plate1 else plate1 to plate2
 
         tossAllCoin(winner)
-        loser.entity.damage(getPower(winner).toDouble())
+
+        isPlayingAnimation.remove(winner.entity)
+        isPlayingAnimation.remove(loser.entity)
+        loser.entity.damage(getPower(winner).toDouble(),winner.entity)
     }
 
     private suspend fun hap(plate1: LimbusPlate, plate2: LimbusPlate) {
@@ -43,8 +43,7 @@ object LimbusbattleHap {
         val job = LimbusbattleHapAnimation.animate(ani2, plate2.entity)
         job.join()
 
-//        battle(plate1, plate2)
-    } //<<<< 이거뭐임
+    }
 
     private fun getPower(plate: LimbusPlate): Int {
         var power = plate.basePower
