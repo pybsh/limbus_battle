@@ -1,1 +1,1 @@
-rootProject.name = "limbus_battle"
+rootProject.name = "limbus-battle"

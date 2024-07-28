@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"UnstableApiUsage", "unused", "ClassEscapesDefinedScope"})
-public class LimbusbattlePluginLoader implements PluginLoader {
+public class LimbusBattlePluginLoader implements PluginLoader {
     @Override
     public void classloader(@NotNull PluginClasspathBuilder classpathBuilder) {
         MavenLibraryResolver resolver = new MavenLibraryResolver();

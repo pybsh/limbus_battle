@@ -3,10 +3,10 @@ package me.pybsh.limbusbattle.plugin.objects
 import com.github.shynixn.mccoroutine.bukkit.launch
 import kotlinx.coroutines.*
 import me.pybsh.limbusbattle.plugin.classes.LimbusAnimation
-import me.pybsh.limbusbattle.plugin.objects.LimbusbattleObject.plugin
+import me.pybsh.limbusbattle.plugin.objects.LimbusBattleObject.plugin
 import org.bukkit.entity.Damageable
 
-object LimbusbattleHapAnimation {
+object LimbusBattleHapAnimation {
     fun animate(animation: ArrayList<LimbusAnimation<*>>, entity: Damageable) = plugin.launch {
         animation.forEach { info ->
             when (info) {

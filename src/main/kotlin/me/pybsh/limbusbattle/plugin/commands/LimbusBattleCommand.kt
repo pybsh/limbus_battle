@@ -5,7 +5,7 @@ import cloud.commandframework.paper.PaperCommandManager
 import net.kyori.adventure.text.Component.text
 import org.bukkit.command.CommandSender
 
-object LimbusbattleCommand {
+object LimbusBattleCommand {
     fun registerCommand(commandManager: PaperCommandManager<CommandSender>): Command.Builder<CommandSender> {
         val builder = commandManager.commandBuilder("sample", { "A Sample command" }, "smp").apply { rootBuilder ->
                 rootBuilder.permission { sender -> sender.isOp }

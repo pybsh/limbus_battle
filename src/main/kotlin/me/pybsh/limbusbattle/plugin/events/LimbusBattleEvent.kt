@@ -1,8 +1,8 @@
 package me.pybsh.limbusbattle.plugin.events
 
 import me.pybsh.limbusbattle.plugin.classes.LimbusPlate
-import me.pybsh.limbusbattle.plugin.objects.LimbusbattleHap
-import me.pybsh.limbusbattle.plugin.objects.LimbusbattleObject.isPlayingAnimation
+import me.pybsh.limbusbattle.plugin.objects.LimbusBattleHap
+import me.pybsh.limbusbattle.plugin.objects.LimbusBattleObject.isPlayingAnimation
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.entity.*
@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 
-object LimbusbattleEvent : Listener {
+object LimbusBattleEvent : Listener {
 
     @EventHandler
     fun onEntityDamagedByEntity(event: EntityDamageByEntityEvent) {
@@ -56,7 +56,7 @@ object LimbusbattleEvent : Listener {
         isPlayingAnimation.add(damager)
         isPlayingAnimation.add(target)
 
-        LimbusbattleHap.battle(p1, p2)
+        LimbusBattleHap.battle(p1, p2)
 
         event.isCancelled = true
     }

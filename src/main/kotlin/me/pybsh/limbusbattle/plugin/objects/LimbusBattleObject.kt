@@ -1,10 +1,10 @@
 package me.pybsh.limbusbattle.plugin.objects
 
-import me.pybsh.limbusbattle.plugin.LimbusbattlePlugin
+import me.pybsh.limbusbattle.plugin.LimbusBattlePlugin
 import org.bukkit.entity.Damageable
 
-object LimbusbattleObject {
-    val plugin = LimbusbattlePlugin.instance
+object LimbusBattleObject {
+    val plugin = LimbusBattlePlugin.instance
     val server = plugin.server
     val isPlayingAnimation: ArrayList<Damageable> = arrayListOf()
 }

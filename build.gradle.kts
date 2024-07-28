@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.*
 
 plugins {
     idea
@@ -59,8 +58,8 @@ paper {
     version = rootProject.version.toString()
 
     main =
-        "${project.group}.${codeName}.plugin.${codeName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}Plugin"
-    loader = "${project.group}.${codeName}.plugin.loader.${codeName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}PluginLoader"
+        "${project.group}.${codeName}.plugin.LimbusBattlePlugin"
+    loader = "${project.group}.${codeName}.plugin.loader.LimbusBattlePluginLoader"
 
     apiVersion = libs.paper.get().version!!.replace("-R0.1-SNAPSHOT", "")
 
