@@ -2,21 +2,21 @@ package me.pybsh.limbusbattle.plugin
 
 import cloud.commandframework.execution.CommandExecutionCoordinator
 import cloud.commandframework.paper.PaperCommandManager
-import me.pybsh.limbusbattle.plugin.commands.LimbusbattleCommand
-import me.pybsh.limbusbattle.plugin.events.LimbusbattleEvent
+import me.pybsh.limbusbattle.plugin.commands.LimbusBattleCommand
+import me.pybsh.limbusbattle.plugin.events.LimbusBattleEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.function.Function
 
-class LimbusbattlePlugin : JavaPlugin() {
+class LimbusBattlePlugin : JavaPlugin() {
     companion object {
-        lateinit var instance: LimbusbattlePlugin
+        lateinit var instance: LimbusBattlePlugin
             private set
     }
 
     override fun onEnable() {
         instance = this
 
-        server.pluginManager.registerEvents(LimbusbattleEvent, this)
+        server.pluginManager.registerEvents(LimbusBattleEvent, this)
 
         val commandManager = PaperCommandManager(
             this,
@@ -32,6 +32,6 @@ class LimbusbattlePlugin : JavaPlugin() {
 //        }
 
         commandManager.registerAsynchronousCompletions()
-        commandManager.command(LimbusbattleCommand.registerCommand(commandManager))
+        commandManager.command(LimbusBattleCommand.registerCommand(commandManager))
     }
 }
