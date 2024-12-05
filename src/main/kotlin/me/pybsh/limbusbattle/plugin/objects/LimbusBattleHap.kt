@@ -3,12 +3,12 @@ package me.pybsh.limbusbattle.plugin.objects
 import com.github.shynixn.mccoroutine.bukkit.launch
 import me.pybsh.limbusbattle.plugin.classes.LimbusAnimation
 import me.pybsh.limbusbattle.plugin.classes.LimbusPlate
-import me.pybsh.limbusbattle.plugin.objects.LimbusbattleObject.isPlayingAnimation
-import me.pybsh.limbusbattle.plugin.objects.LimbusbattleObject.plugin
+import me.pybsh.limbusbattle.plugin.objects.LimbusBattleObject.isPlayingAnimation
+import me.pybsh.limbusbattle.plugin.objects.LimbusBattleObject.plugin
 import net.kyori.adventure.text.Component.text
 import kotlin.random.Random
 
-object LimbusbattleHap {
+object LimbusBattleHap {
     fun battle(plate1: LimbusPlate, plate2: LimbusPlate) = plugin.launch {
         while (plate1.coinCount > 0 && plate2.coinCount > 0) {
             hap(plate1, plate2)
@@ -39,8 +39,8 @@ object LimbusbattleHap {
             plate1.removeCoin()
         }
 
-        LimbusbattleHapAnimation.animate(ani1, plate1.entity)
-        val job = LimbusbattleHapAnimation.animate(ani2, plate2.entity)
+        LimbusBattleHapAnimation.animate(ani1, plate1.entity)
+        val job = LimbusBattleHapAnimation.animate(ani2, plate2.entity)
         job.join()
 
     }
